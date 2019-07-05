@@ -1,4 +1,4 @@
-# high-precision_98point_faceswap
+# high-precision_98points_faceswap
 Look at a boundary face alignment faceswap
 
 
