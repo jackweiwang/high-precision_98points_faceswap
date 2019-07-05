@@ -101,13 +101,7 @@ class VideoConverter(object):
     def process_video(self, input_img, options):
         """Transform detected faces in single input frame."""
         image = input_img
-        #image = cv2.imread('mask.png')
-        # rect = self.fdetect.detect_face(image, is_bgr=True, minsize=40,
-        #                                        threshold=options["detec_threshold"],
-        #                                        factor=0.709,
-        #                                        use_auto_downscaling=options["use_auto_downscaling"],
-        #                                        min_face_area=options["min_face_area"]
-        #                                        )
+
         # detect face using MTCNN (faces: face bbox coord, pnts: landmarks coord.)
         faces = self.fdetect.detect_face(image, minsize=40,
                                                threshold=options["detec_threshold"],
@@ -184,7 +178,7 @@ class VideoConverter(object):
                 if (y0 < 0):
                     y0 = 0
                 det_face_im = input_img[int(x0):int(x1), int(y0):int(y1), :]
-                cv2.imwrite('det_face_im.png', det_face_im)
+                #cv2.imwrite('det_face_im.png', det_face_im)
                 srcheight = det_face_im.shape[0]
                 srcwidth = det_face_im.shape[1]
                 det_face_im1 = cv2.resize(det_face_im, (256, 256))
@@ -198,8 +192,7 @@ class VideoConverter(object):
                     pnts_right = [(preds[i]) for i in range(0, 33)]
                     pnts_right1 = [preds[i] for i in range(33, 37)]
                     pnts_right2 = [preds[i] for i in range(42, 47)]
-                    # pnts_right[32][1] = pnts_right[32][1] - 10
-                    # pnts_right[0][1] = pnts_right[0][1] - 10
+
                     pnts_num = np.array(pnts_right)
                     pnts_num1 = np.array(pnts_right1)
                     pnts_num2 = np.array(pnts_right2)
@@ -209,8 +202,7 @@ class VideoConverter(object):
                     pnts_num2[:, 1] = pnts_num2[:, 1] - 20
                     # pnts_num2[:,0] = pnts_num2[:,0] + 10
                     pnt = np.vstack((pnts_num, pnts_num1, pnts_num2))
-                    # pnts_right1 = [(preds[i]) for i in range(38, 42)]
-                    # pnts_right2 = [(preds[i]) for i in range(46, 51)]
+
                     hull = cv2.convexHull(pnt).astype(np.int32)
                     mask = cv2.drawContours(mask, [hull], 0, (255, 255, 255), -1)
                     mask = cv2.resize(mask, (srcwidth, srcheight))
@@ -240,12 +232,11 @@ class VideoConverter(object):
 
                 resultint = result.astype(np.uint8) & mask
                 result2 = det_face_im.astype(np.uint8)#  & (255-masksrc)
-                cv2.imwrite('result2.jpg', result2)
                 mask = cv2.cvtColor(mask, cv2.COLOR_RGB2GRAY)
                 x, y, w, h = cv2.boundingRect(mask)
 
+                
                 center = (int(x + w / 2), int(y + h / 2))
-
                 result = cv2.seamlessClone(resultint, result2, mask, center, cv2.NORMAL_CLONE )
 
                 result_a = rev_aligned_mask
