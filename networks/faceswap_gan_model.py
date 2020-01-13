@@ -1,5 +1,4 @@
 from keras.models import Model
-from keras.layers import *
 from keras.optimizers import Adam
 from .nn_blocks import *
 from .losses import *
@@ -76,96 +75,7 @@ class FaceswapGANModel():
         self.real_B = Input(shape=self.IMAGE_SHAPE)
         self.mask_eyes_A = Input(shape=self.IMAGE_SHAPE)
         self.mask_eyes_B = Input(shape=self.IMAGE_SHAPE)
-    # @staticmethod
-    # def build_encoder(nc_in=3, input_size=64, use_self_attn=True, norm='none', model_capacity='standard', kernel_initializer=dict):
-    #     """ Encoder Network """
-    #     kwargs = dict(kernel_initializer = kernel_initializer)
-    #
-    #     input_ = Input(shape=(input_size, input_size, nc_in))
-    #
-    #
-    #     in_conv_filters = input_size
-    #     if input_size > 128:
-    #         in_conv_filters = 128 + (input_size - 128) // 4
-    #     dense_shape = input_size // 16
-    #
-    #     var_x = conv(input_, in_conv_filters, res_block_follows=True, **kwargs)
-    #     tmp_x = var_x
-    #     res_cycles = 8
-    #     for _ in range(res_cycles):
-    #         nn_x = new_res_block(var_x, 64, **kwargs)
-    #         var_x = nn_x
-    #     # consider adding scale before this layer to scale the residual chain
-    #     var_x = add([var_x, tmp_x])
-    #     var_x = conv(var_x, 128, **kwargs)
-    #     var_x = PixelShuffler()(var_x)
-    #     var_x = conv(var_x, 128, **kwargs)
-    #     var_x = PixelShuffler()(var_x)
-    #     var_x = conv(var_x, 128, **kwargs)
-    #     var_x = conv_sep(var_x, 256, **kwargs)
-    #     var_x = conv(var_x, 512, **kwargs)
-    #
-    #     var_x = conv_sep(var_x, 1024, **kwargs)
-    #
-    #     var_x = Dense(512, **kwargs)(Flatten()(var_x))
-    #     var_x = Dense(dense_shape * dense_shape * 1024, **kwargs)(var_x)
-    #     var_x = Reshape((dense_shape, dense_shape, 1024))(var_x)
-    #     var_x = upscale(var_x, 512, **kwargs)
-    #     return Model(inputs=input_, outputs=var_x)
-    #
-    # @staticmethod
-    # def build_decoder(nc_in=512, input_size=16, output_size=64, use_self_attn=True, norm='none', model_capacity='standard', kernel_initializer=dict):
-    #     """ Decoder Network """
-    #     kwargs = dict(kernel_initializer=kernel_initializer)
-    #
-    #     input_ = Input(shape=(input_size, input_size, nc_in))
-    #
-    #     var_x = input_
-    #     var_x = upscale(var_x, 512, res_block_follows=True, **kwargs)
-    #     var_x = new_res_block(var_x, 512, **kwargs)
-    #     var_x = upscale(var_x, 256, res_block_follows=True, **kwargs)
-    #     var_x = new_res_block(var_x, 256, **kwargs)
-    #
-    #
-    #     # var_x = upscale(var_x, 16, res_block_follows=True, **kwargs)
-    #     # var_x = new_res_block(var_x, 16, **kwargs)
-    #
-    #     var_x = upscale(var_x, input_size, res_block_follows=True, **kwargs)
-    #     var_x = new_res_block(var_x, input_size, **kwargs)
-    #
-    #     #var_x = Conv2D(4, kernel_size=5, padding='same', activation='sigmoid')(var_x)
-    #
-    #     alpha = Conv2D(1, kernel_size=5, kernel_initializer=kernel_initializer,  padding='same', activation="sigmoid")(var_x)
-    #     bgr = Conv2D(3, kernel_size=5, kernel_initializer= kernel_initializer, padding='same', activation="tanh")(var_x)
-    #     out = concatenate([alpha, bgr])
-    #
-    #     #outputs = [var_x]
-    #
-    #     return Model(input_, outputs=out)
-    # @staticmethod
-    # def build_discriminator(nc_in,
-    #                         input_size=64,
-    #                         use_self_attn=True,
-    #                         norm='none',
-    #                         kernel_initializer=dict):
-    #     # activ_map_size = input_size
-    #     kwargs = dict(kernel_initializer=kernel_initializer)
-    #     use_norm = False if (norm == 'none') else True
-    #
-    #     inp = Input(shape=(input_size, input_size, nc_in))
-    #     x = upscale(inp, 128, res_block_follows=True, **kwargs)
-    #     x = conv_block_d(x, 128, False)
-    #     x = upscale(x, 256, res_block_follows=True, **kwargs)
-    #     x = conv_block_d(x, 256, use_norm, norm=norm)
-    #     x = upscale(x, 512, res_block_follows=True, **kwargs)
-    #     x = conv_block_d(x, 512, use_norm, norm=norm)
-    #     x = self_attn_block(x, 512) if use_self_attn else x
-    #
-    #     # activ_map_size = activ_map_size//2
-    #
-    #     out = Conv2D(3, kernel_size=4, kernel_initializer=kernel_initializer, use_bias=False, padding="same")(x) # use_bias should be True
-    #     print(out.shape)
-    #     return Model(inputs=[inp], outputs=out)
+
     @staticmethod
     def build_encoder(nc_in=3,
                       input_size=64,

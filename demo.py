@@ -21,15 +21,12 @@ model.load_weights(path="./endeweight")
 from converter.video_converter  import VideoConverter
 
 from detector.face_detector import MTCNNFaceDetector
-mtcnn_weights_dir = "./mtcnn_weights/"
+
+mtcnn_weights_dir = "./weights/"
+
 fd = MTCNNFaceDetector(sess=K.get_session(), model_path=mtcnn_weights_dir)
 
-# from detector.s3fd_face_detector import S3FDFaceDetector
-# fd = S3FDFaceDetector(K.get_session(), mtcnn_weights_dir)
 
-# from detector.small_face_detector import SmallFaceDetector
-# weights_dir = "./models/pickle_model/test.pickle"
-# fd = SmallFaceDetector(K.get_session(), weights_dir)
 frames = 0
 x0 = x1 = y0 = y1 = 0
 vc = VideoConverter(x0,x1,y0,y1,frames)
